@@ -3,15 +3,17 @@
 }
 
 .main {
-  background-color: rgb(134, 134, 134);
+  background-color: rgb(208, 208, 208);
   height: calc(100% - 40px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .boardContainer {
   margin: 0 auto;
-  padding: .4rem;
   width: min-content;
-  background-color: rgb(52, 52, 52);
+  background-color: rgb(208, 208, 208);
 }
 
 .board {
@@ -19,12 +21,18 @@
 }
 
 .tile {
+  color: #fff;
+  font-size: 1.5rem;
+  text-shadow: 2px 2px 2px #000;
   position: absolute;
   transition: top 1s, left 1s;
+  box-shadow: 5px 5px 10px rgba(59, 59, 59, 0.688);
 }
 
 header {
-  background-color: #555;
+  display: flex;
+  justify-content: space-between;
+  background-color: #aaa;
   padding: 5px;
   line-height: 0;
 }
@@ -35,4 +43,16 @@ header {
   line-height: 30px;
   font-size: 30px;
   vertical-align: top;
+}
+
+.settingBtn {
+  font-size: 30px;
+}
+
+.settingBtn:hover {
+  color: #fff;
+}
+
+.settingBtn:active {
+  color: #acacac;
 }

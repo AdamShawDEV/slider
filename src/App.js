@@ -1,16 +1,19 @@
 import './App.css';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { AiOutlineSetting } from 'react-icons/ai';
+import Modal from './components/Modal';
+import { SettingsContextProvider, SettingsContext } from './components/hooks/settingsContext';
+import useWindowDimensions from './components/hooks/useWindowDimensions';
 
 const CONSTS = {
-  tileHeight: 70,
-  tileWidth: 70,
-  tileGap: 5,
+  defaultSize: 5,
+  maxBoardWidth: 560,
+  maxBoardHeight: 560,
+  tileGap: 10,
   imageURI: '/images/flowers.jpg',
-  numRows: 5,
-  numCols: 5,
 }
 
-function shuffleBoard(board) {
+async function shuffleBoard(board, numCols, numRows) {
 
   // applying only legal moves shuffle the puzzle
   for (let i = 0; i < 500; i++) {
@@ -24,12 +27,12 @@ function shuffleBoard(board) {
     const difference = Math.round(Math.random()) === 0 ? -1 : 1;
 
     if (direction === 1) { //row
-      newPos = { ...newPos, row: ( blankPos.row + difference >= 0 && blankPos.row + difference < CONSTS.numRows ? blankPos.row + difference : blankPos.row - difference ) };
+      newPos = { ...newPos, row: (blankPos.row + difference >= 0 && blankPos.row + difference < numRows ? blankPos.row + difference : blankPos.row - difference) };
     } else { // col
-      newPos = { ...newPos, col: ( blankPos.col + difference >= 0 && blankPos.col + difference < CONSTS.numCols ? blankPos.col + difference : blankPos.col - difference ) };
+      newPos = { ...newPos, col: (blankPos.col + difference >= 0 && blankPos.col + difference < numCols ? blankPos.col + difference : blankPos.col - difference) };
     }
 
-    const tileID = board.findIndex((item) => item.pos.row === newPos.row && item.pos.col === newPos.col );
+    const tileID = board.findIndex((item) => item.pos.row === newPos.row && item.pos.col === newPos.col);
 
     // swap tiles
     const tempPos = board[tileID].pos;
@@ -38,7 +41,7 @@ function shuffleBoard(board) {
   }
 }
 
-function createBoard(x, y) {
+async function createBoard(x, y) {
   let board = Array(x * y);
 
   for (let row = 0; row < y; row++) {
@@ -54,12 +57,19 @@ function createBoard(x, y) {
 
   board[x * y - 1].isBlank = true;
 
-  shuffleBoard(board);
+  await shuffleBoard(board, x, y);
 
   return board;
 }
 
 function TileBoard({ board, setBoard }) {
+  const { settings } = useContext(SettingsContext);
+  const { windowDimentions } = useWindowDimensions();
+  const consts = {
+    tileWidth: CONSTS.boardWidth / settings.puzzleType,
+    tileHeight: CONSTS.boardHeight / settings.puzzleType,
+    tileGap: CONSTS.tileGap,
+  }
 
   function onClickHandler(id) {
     const currTile = board[id];
@@ -78,42 +88,139 @@ function TileBoard({ board, setBoard }) {
     }
   }
 
+  const boardWidth = Math.min(CONSTS.maxBoardWidth, windowDimentions.width, windowDimentions.height);
+  const tileWidth = (boardWidth - (settings.puzzleType - 1) * consts.tileGap) / settings.puzzleType;
+
 
   return (
     <div className='boardContainer' >
       <div className='board' style={{
-        width: `${CONSTS.numCols * CONSTS.tileWidth + (CONSTS.numCols - 1) * CONSTS.tileGap}px`,
-        height: `${CONSTS.numRows * CONSTS.tileHeight + (CONSTS.numRows - 1) * CONSTS.tileGap}px`,
+        width: `${boardWidth}px`,
+        height: `${boardWidth}px`,
       }}>
         {board.map((tile, idx) =>
           tile.isBlank ? null :
             <div key={idx}
               className="tile"
               style={{
-                top: `${CONSTS.tileHeight * tile.pos.row + CONSTS.tileGap * tile.pos.row}px`,
-                left: `${CONSTS.tileWidth * tile.pos.col + CONSTS.tileGap * tile.pos.col}px`,
-                height: `${CONSTS.tileHeight}px`,
-                width: `${CONSTS.tileWidth}px`,
+                top: `${tileWidth * tile.pos.row + consts.tileGap * tile.pos.row}px`,
+                left: `${tileWidth * tile.pos.col + consts.tileGap * tile.pos.col}px`,
+                height: `${tileWidth}px`,
+                width: `${tileWidth}px`,
                 backgroundImage: 'url(./images/flowers.jpg)',
-                backgroundPosition: `${-(CONSTS.tileWidth * tile.imagePos.col)}px ${-(CONSTS.tileHeight * tile.imagePos.row)}px`
+                backgroundPosition: `${-(tileWidth * tile.imagePos.col)}px ${-(tileWidth * tile.imagePos.row)}px`
               }}
-              onClick={() => onClickHandler(tile.id)}>{tile.id}</div>
+              onClick={() => onClickHandler(tile.id)}>
+              {settings.showNums && tile.id + 1}</div>
         )}
       </div>
     </div>
   );
 }
 
-function App() {
-  const [board, setBoard] = useState(() => createBoard(CONSTS.numCols, CONSTS.numRows));
+function Header() {
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [puzzleType, setPuzzleType] = useState("");
+  const [picture, setPicture] = useState('flower');
+  const [showNums, setShowNums] = useState(false);
+  const { settings, setSettings } = useContext(SettingsContext);
+
+  function onSettingsBtnClick() {
+    setPuzzleType(settings.puzzleType);
+    setPicture(settings.picture);
+    setShowNums(settings.showNums);
+
+    setSettingsOpen(true);
+  }
+
+  function onCancelBtnClick() {
+    setPuzzleType(settings.puzzleType);
+    setPicture(settings.picture);
+    setSettingsOpen(false);
+  }
+
+  function onFormSubmint(e) {
+    e.preventDefault();
+
+    setSettings({
+      puzzleType,
+      picture,
+      showNums,
+    });
+    setSettingsOpen(false);
+  }
 
   return (
-    <div className="App">
-      <header><span className='title'>Slider</span></header>
+    <>
+      <header className='header'>
+        <span className='title'>Slider</span>
+        <div className='settingBtn' onClick={onSettingsBtnClick}>
+          <AiOutlineSetting />
+        </div>
+      </header>
+      {settingsOpen && <Modal>
+        <h1>Settings</h1>
+        <form onSubmit={(e) => onFormSubmint(e)}>
+          <label>Type: </label>
+          <select value={puzzleType} onChange={(e) => setPuzzleType(e.target.value)}>
+            <option value='3'>3 x 3</option>
+            <option value='4'>4 x 4</option>
+            <option value='5'>5 x 5</option>
+            <option value='6'>6 x 6</option>
+            <option value='7'>7 x 7</option>
+            <option value='8'>8 x 8</option>
+          </select>
+          <label>Picture: </label>
+          <select value={picture} onChange={(e) => setPicture(e.target.value)}>
+            <option value='flower'>flower</option>
+            <option value='car'>car</option>
+            <option value='cat'>cat</option>
+          </select>
+          <label>Show Numbers:</label>
+          <input type='checkbox' value={showNums} onChange={() => setShowNums(!showNums)} />
+          <input type='submit' value='Submit' />
+          <button onClick={onCancelBtnClick}>cancel</button>
+        </form>
+      </Modal>}
+    </>
+  );
+}
+
+function TileGame() {
+  const [board, setBoard] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const { settings } = useContext(SettingsContext);
+
+  useEffect(() => {
+    const loadBoard = async () => {
+      const newBaord = await createBoard(settings.puzzleType, settings.puzzleType)
+      setBoard(newBaord);
+      setIsLoading(false);
+    }
+
+    loadBoard();
+  }, [settings.puzzleType]);
+
+  if (isLoading) return <div>loading</div>;
+
+  return (
+    <>
+      <Header />
       <main className='main'>
         <TileBoard board={board} setBoard={setBoard} />
       </main>
-    </div>
+    </>
+  );
+}
+
+function App() {
+
+  return (
+    <SettingsContextProvider>
+      <div className="App">
+        <TileGame />
+      </div>
+    </SettingsContextProvider>
   );
 }
 
