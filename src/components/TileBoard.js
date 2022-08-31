@@ -4,7 +4,7 @@ import useWindowDimensions from './hooks/useWindowDimensions';
 import CONSTS, { GAME_STATE } from '../consts';
 import styles from './modules/TileBoard.module.css'
 
-function TileBoard({ board, setBoard, gameState, setGameState }) {
+function TileBoard({ board, setBoard, gameState, startTimer, isTimerRunning, numMovesRef, endGame }) {
   const { settings } = useContext(SettingsContext);
   const { windowDimentions } = useWindowDimensions();
   const consts = {
@@ -15,6 +15,8 @@ function TileBoard({ board, setBoard, gameState, setGameState }) {
 
   function onClickHandler(id) {
     if (gameState !== GAME_STATE.PLAYING) return;
+
+    if (!isTimerRunning) startTimer();
 
     const currTile = board[id];
     const blankTile = board[board.length - 1];
@@ -29,8 +31,12 @@ function TileBoard({ board, setBoard, gameState, setGameState }) {
       newBoard[id].pos = newBoard[newBoard.length - 1].pos;
       newBoard[newBoard.length - 1].pos = tempPos;
 
-      if (checkBoard(newBoard, settings.puzzleType))
-        setGameState(GAME_STATE.WON);
+      //increment numMoves
+      numMovesRef.current = numMovesRef.current + 1;
+
+      if (checkBoard(newBoard, settings.puzzleType)) {
+        endGame();
+      }
 
       setBoard(newBoard);
     }

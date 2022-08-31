@@ -1,9 +1,82 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext, useEffect, useRef } from 'react';
 import { SettingsContext } from './hooks/settingsContext';
 import CONSTS, { GAME_STATE } from '../consts';
 import Header from './Header';
 import TileBoard from './TileBoard';
 import Modal from './Modal';
+import useTimer from './hooks/useTimer';
+import useStatsReducer from './hooks/useStatsReducer';
+
+function TileGame({ startNewGame }) {
+    const [board, setBoard] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const { settings } = useContext(SettingsContext);
+    const [gameState, setGameState] = useState(GAME_STATE.PLAYING);
+    let numMovesRef = useRef(0);
+    const { secondsElapsed, startTimer, stopTimer, isTimerRunning, resetTimer } = useTimer();
+    const { stats, statsDispatch } = useStatsReducer();
+
+    useEffect(() => {
+        const loadBoard = async () => {
+            const newBaord = await createBoard(settings.puzzleType, settings.puzzleType)
+            setBoard(newBaord);
+            setIsLoading(false);
+
+            // reset and stop timer
+            stopTimer();
+            resetTimer();
+            numMovesRef.current = 0;
+        }
+
+        loadBoard();
+    }, [settings.puzzleType]);
+
+    function endGame() {
+        setGameState(GAME_STATE.WON);
+        stopTimer();
+        statsDispatch({
+            type: 'logGame',
+            time: secondsElapsed,
+            picture: settings.picture,
+            puzzleType: settings.puzzleType,
+            showNums: settings.showNums,
+            numMoves: numMovesRef.current,
+        });
+    }
+
+    if (isLoading) return <div>loading</div>;
+
+    return (
+        <>
+            <Header secondsElapsed={secondsElapsed} />
+            <main className='main'>
+                <TileBoard board={board}
+                    setBoard={setBoard}
+                    gameState={gameState}
+                    startTimer={startTimer}
+                    isTimerRunning={isTimerRunning}
+                    numMovesRef={numMovesRef}
+                    endGame={endGame} />
+            </main>
+            {gameState !== GAME_STATE.PLAYING && <Modal>
+                <h1>Statistics</h1>
+                <h2>games played</h2>
+                <span>{stats.gamesPlayed}</span>
+                <h2>best times</h2>
+                {Object.keys(stats.bestTimes).map(key => 
+                    <div key={key}>
+                        <div>{stats.bestTimes[key].picture}</div>
+                        <div>{stats.bestTimes[key].puzzleType}</div>
+                        <div>{stats.bestTimes[key].showNums}</div>
+                        <div>{stats.bestTimes[key].time}</div>
+                        <div>{stats.bestTimes[key].numMoves}</div>
+                    </div>
+                )}
+                <button onClick={startNewGame}>new game</button>
+            </Modal>}
+        </>
+    );
+}
 
 async function shuffleBoard(board, numCols, numRows) {
 
@@ -55,37 +128,6 @@ async function createBoard(x, y) {
     await shuffleBoard(board, x, y);
 
     return board;
-}
-
-function TileGame() {
-    const [board, setBoard] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const { settings } = useContext(SettingsContext);
-    const [gameState, setGmaeState] = useState(GAME_STATE.PLAYING);
-
-    useEffect(() => {
-        const loadBoard = async () => {
-            const newBaord = await createBoard(settings.puzzleType, settings.puzzleType)
-            setBoard(newBaord);
-            setIsLoading(false);
-        }
-
-        loadBoard();
-    }, [settings.puzzleType]);
-
-    if (isLoading) return <div>loading</div>;
-
-    return (
-        <>
-            <Header />
-            <main className='main'>
-                <TileBoard board={board} setBoard={setBoard} gameState={gameState} setGameState={setGmaeState} />
-            </main>
-            {gameState !== GAME_STATE.PLAYING && <Modal>
-                {gameState === GAME_STATE.WON ? 'Well Done! ' : 'You lost 😞'}
-            </Modal> }
-        </>
-    );
 }
 
 export default TileGame;

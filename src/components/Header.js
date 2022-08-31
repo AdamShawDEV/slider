@@ -4,8 +4,9 @@ import { AiOutlineSetting } from 'react-icons/ai';
 import Modal from './Modal';
 import CONSTS from '../consts';
 import styles from './modules/Header.module.css';
+import TimerDisplay from './TimerDisplay';
 
-function Header() {
+function Header({ secondsElapsed }) {
     const [settingsOpen, setSettingsOpen] = useState(false);
     const [puzzleType, setPuzzleType] = useState(CONSTS.defaultSize);
     const [picture, setPicture] = useState(CONSTS.defaultPicture);
@@ -41,6 +42,7 @@ function Header() {
       <>
         <header className={styles.header} >
           <span className={styles.title} >Slider</span>
+          <TimerDisplay secondsElapsed={secondsElapsed} />
           <div className={styles.settingBtn} onClick={onSettingsBtnClick}>
             <AiOutlineSetting />
           </div>
@@ -66,7 +68,7 @@ function Header() {
               </select>
               <div>
                 <label>
-                  <input type='checkbox' value={showNums} onChange={() => setShowNums(!showNums)} />
+                  <input type='checkbox' checked={showNums} onChange={() => setShowNums(!showNums)} />
                   Show Numbers </label>
               </div>
               <div>
