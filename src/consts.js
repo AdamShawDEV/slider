@@ -1,13 +1,26 @@
 const CONSTS = {
-    defaultSize: 5,
-    defaultPicture: 'flowers',
-    maxBoardWidth: 560,
-    maxBoardHeight: 560,
-    tileGap: 10,
-    imageURI: '/images/flowers.jpg',
-    headerHeight: 40,
-    boardPadding: 20,
-    numSuffleMoves: 500.
-  };
+  defaultSize: 5,
+  defaultPicture: 'flowers',
+  maxBoardWidth: 560,
+  maxBoardHeight: 560,
+  tileGap: 10,
+  imageURI: '/images/flowers.jpg',
+  headerHeight: 40,
+  boardPadding: 20,
+  numSuffleMoves: 500,
+  pictures: [
+    'balloon',
+    'flowers',
+    'mountain',
+    'sand',
+    'turtle',
+  ],
+};
 
-  export default CONSTS;
+const GAME_STATE = {
+  PLAYING: 'playing',
+  WON: 'won',
+  LOST: 'lost',
+}
+
+export { CONSTS as default, GAME_STATE };

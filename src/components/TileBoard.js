@@ -1,10 +1,10 @@
 import { useContext } from 'react';
 import { SettingsContext } from './hooks/settingsContext';
 import useWindowDimensions from './hooks/useWindowDimensions';
-import CONSTS from '../consts';
+import CONSTS, { GAME_STATE } from '../consts';
 import styles from './modules/TileBoard.module.css'
 
-function TileBoard({ board, setBoard }) {
+function TileBoard({ board, setBoard, gameState, setGameState }) {
   const { settings } = useContext(SettingsContext);
   const { windowDimentions } = useWindowDimensions();
   const consts = {
@@ -14,6 +14,8 @@ function TileBoard({ board, setBoard }) {
   }
 
   function onClickHandler(id) {
+    if (gameState !== GAME_STATE.PLAYING) return;
+
     const currTile = board[id];
     const blankTile = board[board.length - 1];
 
@@ -26,6 +28,9 @@ function TileBoard({ board, setBoard }) {
       const tempPos = newBoard[id].pos;
       newBoard[id].pos = newBoard[newBoard.length - 1].pos;
       newBoard[newBoard.length - 1].pos = tempPos;
+
+      if (checkBoard(newBoard, settings.puzzleType))
+        setGameState(GAME_STATE.WON);
 
       setBoard(newBoard);
     }
@@ -51,7 +56,7 @@ function TileBoard({ board, setBoard }) {
                 left: `${tileWidth * tile.pos.col + consts.tileGap * tile.pos.col}px`,
                 height: `${tileWidth}px`,
                 width: `${tileWidth}px`,
-                backgroundImage: `url(./images/${settings.picture}.jpg)`,
+                backgroundImage: `url(./images/${settings.picture}.png)`,
                 backgroundPosition: `${-(tileWidth * tile.imagePos.col)}px ${-(tileWidth * tile.imagePos.row)}px`
               }}
               onClick={() => onClickHandler(tile.id)}>
@@ -60,6 +65,17 @@ function TileBoard({ board, setBoard }) {
       </div>
     </div>
   );
+}
+
+function checkBoard(board, puzzleType) {
+
+  for (let i = 0; i < board.length; i++) {
+    if (board[i].pos.row !== Math.floor(i /puzzleType) ||
+      board[i].pos.col !== i % puzzleType)
+      return false;
+  }
+
+  return true;
 }
 
 export default TileBoard;

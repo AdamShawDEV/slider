@@ -1,8 +1,9 @@
 import { useState, useContext, useEffect } from 'react';
 import { SettingsContext } from './hooks/settingsContext';
-import CONSTS from '../consts';
+import CONSTS, { GAME_STATE } from '../consts';
 import Header from './Header';
 import TileBoard from './TileBoard';
+import Modal from './Modal';
 
 async function shuffleBoard(board, numCols, numRows) {
 
@@ -60,6 +61,7 @@ function TileGame() {
     const [board, setBoard] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const { settings } = useContext(SettingsContext);
+    const [gameState, setGmaeState] = useState(GAME_STATE.PLAYING);
 
     useEffect(() => {
         const loadBoard = async () => {
@@ -77,8 +79,11 @@ function TileGame() {
         <>
             <Header />
             <main className='main'>
-                <TileBoard board={board} setBoard={setBoard} />
+                <TileBoard board={board} setBoard={setBoard} gameState={gameState} setGameState={setGmaeState} />
             </main>
+            {gameState !== GAME_STATE.PLAYING && <Modal>
+                {gameState === GAME_STATE.WON ? 'Well Done! ' : 'You lost 😞'}
+            </Modal> }
         </>
     );
 }

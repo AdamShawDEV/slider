@@ -60,9 +60,9 @@ function Header() {
               </select>
               <label>Picture: </label>
               <select value={picture} onChange={(e) => setPicture(e.target.value)}>
-                <option value='flowers'>flowers</option>
-                <option value='car'>car</option>
-                <option value='cat'>cat</option>
+                {CONSTS.pictures.map((pic, idx) =>
+                  <option key={idx} value={pic}>{pic}</option>
+                  )}
               </select>
               <div>
                 <label>
