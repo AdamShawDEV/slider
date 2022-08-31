@@ -11,7 +11,9 @@ const CONSTS = {
   maxBoardHeight: 560,
   tileGap: 10,
   imageURI: '/images/flowers.jpg',
-}
+  headerHeight: 40,
+  boardPadding: 20,
+};
 
 async function shuffleBoard(board, numCols, numRows) {
 
@@ -88,9 +90,12 @@ function TileBoard({ board, setBoard }) {
     }
   }
 
-  const boardWidth = Math.min(CONSTS.maxBoardWidth, windowDimentions.width, windowDimentions.height);
+  const boardWidth = Math.min(CONSTS.maxBoardWidth,
+    windowDimentions.width - CONSTS.boardPadding,
+    windowDimentions.height - (CONSTS.headerHeight + CONSTS.boardPadding));
   const tileWidth = (boardWidth - (settings.puzzleType - 1) * consts.tileGap) / settings.puzzleType;
 
+  console.log(settings.picture);
 
   return (
     <div className='boardContainer' >
@@ -107,7 +112,7 @@ function TileBoard({ board, setBoard }) {
                 left: `${tileWidth * tile.pos.col + consts.tileGap * tile.pos.col}px`,
                 height: `${tileWidth}px`,
                 width: `${tileWidth}px`,
-                backgroundImage: 'url(./images/flowers.jpg)',
+                backgroundImage: `url(./images/${settings.picture}.jpg)`,
                 backgroundPosition: `${-(tileWidth * tile.imagePos.col)}px ${-(tileWidth * tile.imagePos.row)}px`
               }}
               onClick={() => onClickHandler(tile.id)}>
@@ -159,28 +164,35 @@ function Header() {
         </div>
       </header>
       {settingsOpen && <Modal>
-        <h1>Settings</h1>
-        <form onSubmit={(e) => onFormSubmint(e)}>
-          <label>Type: </label>
-          <select value={puzzleType} onChange={(e) => setPuzzleType(e.target.value)}>
-            <option value='3'>3 x 3</option>
-            <option value='4'>4 x 4</option>
-            <option value='5'>5 x 5</option>
-            <option value='6'>6 x 6</option>
-            <option value='7'>7 x 7</option>
-            <option value='8'>8 x 8</option>
-          </select>
-          <label>Picture: </label>
-          <select value={picture} onChange={(e) => setPicture(e.target.value)}>
-            <option value='flower'>flower</option>
-            <option value='car'>car</option>
-            <option value='cat'>cat</option>
-          </select>
-          <label>Show Numbers:</label>
-          <input type='checkbox' value={showNums} onChange={() => setShowNums(!showNums)} />
-          <input type='submit' value='Submit' />
-          <button onClick={onCancelBtnClick}>cancel</button>
-        </form>
+        <div className='settingsForm' >
+          <h1>Settings</h1>
+          <form onSubmit={(e) => onFormSubmint(e)}>
+            <label>Type: </label>
+            <select value={puzzleType} onChange={(e) => setPuzzleType(e.target.value)}>
+              <option value='3'>3 x 3</option>
+              <option value='4'>4 x 4</option>
+              <option value='5'>5 x 5</option>
+              <option value='6'>6 x 6</option>
+              <option value='7'>7 x 7</option>
+              <option value='8'>8 x 8</option>
+            </select>
+            <label>Picture: </label>
+            <select value={picture} onChange={(e) => setPicture(e.target.value)}>
+              <option value='flowers'>flowers</option>
+              <option value='car'>car</option>
+              <option value='cat'>cat</option>
+            </select>
+            <div>
+              <label>
+                <input type='checkbox' value={showNums} onChange={() => setShowNums(!showNums)} />
+                Show Numbers </label>
+            </div>
+            <div>
+              <input type='submit' value='Submit' />
+              <button onClick={onCancelBtnClick}>cancel</button>
+            </div>
+          </form>
+        </div>
       </Modal>}
     </>
   );

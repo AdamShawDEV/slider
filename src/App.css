@@ -56,3 +56,16 @@ header {
 .settingBtn:active {
   color: #acacac;
 }
+
+.settingsForm {
+  padding: .4rem;
+}
+
+.settingsForm > form {
+  display: flex;
+  flex-direction: column;
+}
+
+.settingsForm > label {
+  
+}
