@@ -57,7 +57,8 @@ function TileBoard({ board, setBoard, gameState, setGameState }) {
                 height: `${tileWidth}px`,
                 width: `${tileWidth}px`,
                 backgroundImage: `url(./images/${settings.picture}.png)`,
-                backgroundPosition: `${-(tileWidth * tile.imagePos.col)}px ${-(tileWidth * tile.imagePos.row)}px`
+                backgroundPosition: `${-(tileWidth * tile.imagePos.col)}px ${-(tileWidth * tile.imagePos.row)}px`,
+                backgroundSize: `${settings.puzzleType}00%`,
               }}
               onClick={() => onClickHandler(tile.id)}>
               {settings.showNums && tile.id + 1}</div>
