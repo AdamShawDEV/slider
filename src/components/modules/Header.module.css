@@ -1,0 +1,40 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    background-color: #aaa;
+    padding: 5px;
+    line-height: 0;
+  }
+  
+  .title {
+    /* background-color: red; */
+    font-weight: 700;
+    line-height: 30px;
+    font-size: 30px;
+    vertical-align: top;
+  }
+  
+  .settingBtn {
+    font-size: 30px;
+  }
+  
+  .settingBtn:hover {
+    color: #fff;
+  }
+  
+  .settingBtn:active {
+    color: #acacac;
+  }
+  
+  .settingsForm {
+    padding: .4rem;
+  }
+  
+  .settingsForm > form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .settingsForm > label {
+    
+  }

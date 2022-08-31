@@ -1,0 +1,18 @@
+.boardContainer {
+    margin: 0 auto;
+    width: min-content;
+    background-color: rgb(208, 208, 208);
+  }
+  
+  .board {
+    position: relative;
+  }
+  
+  .tile {
+    color: #fff;
+    font-size: 1.5rem;
+    text-shadow: 2px 2px 2px #000;
+    position: absolute;
+    transition: top 1s, left 1s;
+    box-shadow: 5px 5px 10px rgba(59, 59, 59, 0.688);
+  }
