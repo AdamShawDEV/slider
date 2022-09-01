@@ -30,7 +30,6 @@ function statsReducer(state, action) {
             };
             localStorage.setItem('statistics', JSON.stringify(newState));
             return newState;
-            break;
         default:
             console.log('invalid action in stats');
     }

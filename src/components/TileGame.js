@@ -60,7 +60,7 @@ function TileGame({ startNewGame }) {
                                 <tr key={key}>
                                     <td>{stats.bestTimes[key].picture}</td>
                                     <td>{`${stats.bestTimes[key].puzzleType}x${stats.bestTimes[key].puzzleType}`}</td>
-                                    <td>{`${stats.bestTimes[key].time}`}</td>
+                                    <td>{`${Math.floor(stats.bestTimes[key].time / 60)}:${(stats.bestTimes[key].time % 60).toString().padStart(2, '0')}`}</td>
                                     <td>{stats.bestTimes[key].numMoves}</td>
                                     <td>{stats.bestTimes[key].showNums ? 'on' : 'off'}</td>
                                 </tr>

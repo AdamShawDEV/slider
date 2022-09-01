@@ -28,6 +28,7 @@ function TileBoard({ gameState, startTimer, isTimerRunning, numMovesRef, endGame
     }
 
     loadBoard();
+    // eslint-disable-next-line
 }, [settings.puzzleType]);
 
   function onClickHandler(id) {
