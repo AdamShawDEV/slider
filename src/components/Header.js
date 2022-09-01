@@ -6,7 +6,7 @@ import CONSTS from '../consts';
 import styles from './modules/Header.module.css';
 import TimerDisplay from './TimerDisplay';
 
-function Header({ secondsElapsed }) {
+function Header({ secondsElapsed, startNewGame }) {
     const [settingsOpen, setSettingsOpen] = useState(false);
     const [puzzleType, setPuzzleType] = useState(CONSTS.defaultSize);
     const [picture, setPicture] = useState(CONSTS.defaultPicture);
@@ -36,6 +36,7 @@ function Header({ secondsElapsed }) {
         showNums,
       });
       setSettingsOpen(false);
+      startNewGame();
     }
   
     return (

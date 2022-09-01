@@ -30,7 +30,7 @@ function TileGame({ startNewGame }) {
 
     return (
         <>
-            <Header secondsElapsed={secondsElapsed} />
+            <Header secondsElapsed={secondsElapsed} startNewGame={startNewGame} />
             <main className={style.main}>
                 <TileBoard
                     gameState={gameState}
@@ -60,7 +60,7 @@ function TileGame({ startNewGame }) {
                                 <tr key={key}>
                                     <td>{stats.bestTimes[key].picture}</td>
                                     <td>{`${stats.bestTimes[key].puzzleType}x${stats.bestTimes[key].puzzleType}`}</td>
-                                    <td>{stats.bestTimes[key].time}</td>
+                                    <td>{`${stats.bestTimes[key].time}`}</td>
                                     <td>{stats.bestTimes[key].numMoves}</td>
                                     <td>{stats.bestTimes[key].showNums ? 'on' : 'off'}</td>
                                 </tr>
