@@ -13,7 +13,7 @@ function statsReducer(state, action) {
 
     switch (type) {
         case 'logGame':
-            if (state.bestTimes[key] && state.bestTimes[key] < time) {
+            if (state?.bestTimes[key] && state.bestTimes[key].time < time) {
                 return state;
             }
             const newState = {

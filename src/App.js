@@ -4,7 +4,7 @@ import TileGame from './components/TileGame';
 import { useState } from 'react';
 
 function App() {
-  const [gameId, setGameId] = useState(0);
+  const [gameId, setGameId] = useState(1);
   
   return (
     <SettingsContextProvider>

@@ -1,0 +1,27 @@
+.main {
+    background-color: rgb(208, 208, 208);
+    height: calc(100% - 40px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .statsModal {
+    text-align: center;
+  }
+
+  .statsModal h1 {
+    text-align: center;
+    margin: 0;
+  }
+
+  .statsModal h2 {
+    margin: 0;
+
+  }
+
+  .statsModal span {
+    display: block;
+    font-size: 2rem;
+    text-align: center;
+  }

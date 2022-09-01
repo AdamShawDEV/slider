@@ -15,4 +15,5 @@
     position: absolute;
     transition: top 1s, left 1s;
     box-shadow: 5px 5px 10px rgba(59, 59, 59, 0.688);
+    user-select: none;
   }
