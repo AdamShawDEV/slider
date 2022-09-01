@@ -25,3 +25,27 @@
     font-size: 2rem;
     text-align: center;
   }
+
+  .statsModal th, .statsModal td {
+    padding: 5px 10px;
+  }
+
+  .statsModal th {
+    color: #55f
+  }
+
+  .statsModal button {
+    padding: .7rem;
+    background-color: rgb(108, 135, 255);
+    border: none;
+    border-radius: .4rem;
+    font-weight: 700;
+  }
+
+  .statsModal button:hover {
+    background-color: rgb(146, 166, 255);
+  }
+
+  .statsModal button:active {
+    background-color: rgb(46, 84, 255);
+  }

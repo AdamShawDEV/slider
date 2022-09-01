@@ -1,41 +1,75 @@
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #aaa;
-    padding: 5px;
-    line-height: 0;
-  }
-  
-  .title {
-    /* background-color: red; */
-    font-weight: 700;
-    line-height: 30px;
-    font-size: 30px;
-    vertical-align: top;
-  }
-  
-  .settingBtn {
-    font-size: 30px;
-  }
-  
-  .settingBtn:hover {
-    color: #fff;
-  }
-  
-  .settingBtn:active {
-    color: #acacac;
-  }
-  
-  .settingsForm {
-    padding: .4rem;
-  }
-  
-  .settingsForm > form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .settingsForm > label {
-    
-  }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #aaa;
+  padding: 5px;
+  line-height: 0;
+}
+
+.title {
+  /* background-color: red; */
+  font-weight: 700;
+  line-height: 30px;
+  font-size: 30px;
+  vertical-align: top;
+}
+
+.settingBtn {
+  font-size: 30px;
+}
+
+.settingBtn:hover {
+  color: #fff;
+}
+
+.settingBtn:active {
+  color: #acacac;
+}
+
+.settingsForm {
+  padding: .4rem;
+}
+
+.settingsForm>form {
+  display: flex;
+  flex-direction: column;
+}
+
+.settingsForm label, .checkboxContainer {
+  margin-top: .7rem;
+  margin-bottom: .4rem;
+}
+
+.settingsForm h1 {
+  text-align: center;
+  margin: 0;
+}
+
+.settingsForm select {
+  padding: .4rem;
+  background-color: rgb(177, 191, 255);
+  border: none;
+  border-radius: .4rem;
+  font-weight: 700;
+}
+
+.settingsForm button {
+  padding: .7rem;
+  background-color: rgb(108, 135, 255);
+  border: none;
+  border-radius: .4rem;
+  font-weight: 700;
+}
+
+.settingsForm button:hover {
+  background-color: rgb(146, 166, 255);
+}
+
+.settingsForm button:active {
+  background-color: rgb(46, 84, 255);
+}
+
+.settingsForm button:nth-of-type(2) {
+  margin-left: 1rem;
+}

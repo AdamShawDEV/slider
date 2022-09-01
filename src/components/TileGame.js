@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect, useRef } from 'react';
+import { useState, useContext, useRef } from 'react';
 import { SettingsContext } from './hooks/settingsContext';
 import { GAME_STATE } from '../consts';
 import Header from './Header';
@@ -48,22 +48,24 @@ function TileGame({ startNewGame }) {
                     <span>{stats.gamesPlayed}</span>
                     <h2>best times</h2>
                     <table>
-                        <tr>
+                        <thead>
                             <th>picture</th>
                             <th>type</th>
                             <th>time</th>
                             <th>moves</th>
                             <th>numbers</th>
-                        </tr>
-                        {Object.keys(stats.bestTimes).map(key =>
-                            <tr key={key}>
-                                <td>{stats.bestTimes[key].picture}</td>
-                                <td>{`${stats.bestTimes[key].puzzleType}x${stats.bestTimes[key].puzzleType}`}</td>
-                                <td>{stats.bestTimes[key].time}</td>
-                                <td>{stats.bestTimes[key].numMoves}</td>
-                                <td>{stats.bestTimes[key].showNums ? 'on' : 'off'}</td>
-                            </tr>
-                        )}
+                        </thead>
+                        <tbody>
+                            {Object.keys(stats.bestTimes).map(key =>
+                                <tr key={key}>
+                                    <td>{stats.bestTimes[key].picture}</td>
+                                    <td>{`${stats.bestTimes[key].puzzleType}x${stats.bestTimes[key].puzzleType}`}</td>
+                                    <td>{stats.bestTimes[key].time}</td>
+                                    <td>{stats.bestTimes[key].numMoves}</td>
+                                    <td>{stats.bestTimes[key].showNums ? 'on' : 'off'}</td>
+                                </tr>
+                            )}
+                        </tbody>
                     </table>
                     <button onClick={startNewGame}>new game</button>
                 </div>

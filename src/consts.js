@@ -7,7 +7,7 @@ const CONSTS = {
   imageURI: '/images/flowers.jpg',
   headerHeight: 40,
   boardPadding: 20,
-  numSuffleMoves: 500,
+  numSuffleMoves: 800,
   pictures: [
     'balloon',
     'flowers',

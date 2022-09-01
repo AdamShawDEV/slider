@@ -66,13 +66,13 @@ function Header({ secondsElapsed }) {
                   <option key={idx} value={pic}>{pic}</option>
                   )}
               </select>
-              <div>
+              <div className={styles.checkboxContainer}>
                 <label>
                   <input type='checkbox' checked={showNums} onChange={() => setShowNums(!showNums)} />
                   Show Numbers </label>
               </div>
               <div>
-                <input type='submit' value='Submit' />
+                <button>submit</button>
                 <button onClick={onCancelBtnClick}>cancel</button>
               </div>
             </form>
