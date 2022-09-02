@@ -10,10 +10,35 @@
   
   .tile {
     color: #fff;
+    background-color: rgb(180, 180, 180);
     font-size: 1.5rem;
     text-shadow: 2px 2px 2px #000;
     position: absolute;
     transition: top 1s, left 1s;
     box-shadow: 5px 5px 10px rgba(59, 59, 59, 0.688);
     user-select: none;
+  }
+
+  .spinnerContainer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .spinner {
+    width: 2.5rem;
+    height: 2.5rem;
+    color: rgb(129, 129, 129);
+    fill: rgb(180, 180, 180);
+    animation-name: spin;
+    animation-duration: 2000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear; 
+  }
+
+  @keyframes spin {
+    from {transform:rotate(0deg);}
+    to {transform:rotate(360deg);}
   }
