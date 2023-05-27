@@ -17,11 +17,6 @@ function TileBoard({
   const [isLoading, setIsLoading] = useState(true);
   const { settings } = useContext(SettingsContext);
   const { windowDimentions } = useWindowDimensions();
-  const consts = {
-    tileWidth: CONSTS.boardWidth / settings.puzzleType,
-    tileHeight: CONSTS.boardHeight / settings.puzzleType,
-    tileGap: CONSTS.tileGap,
-  };
   const bgImage = useProgressiveImage(`./images/${settings.picture}.png`);
 
   useEffect(() => {
