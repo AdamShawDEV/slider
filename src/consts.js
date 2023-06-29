@@ -1,7 +1,7 @@
 export const BASE_BOARD_WIDTH_HEIGHT = 560;
 export const BASE_TILE_GAP = 10;
 export const BASE_BOARD_PADDING = 20;
-export const HEADER_HEIGH = 40;
+export const HEADER_HEIGHT = 40;
 
 export const PICTURES = ["balloon", "flowers", "mountain", "sand", "turtle"];
 

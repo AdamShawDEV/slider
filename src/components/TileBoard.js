@@ -6,7 +6,7 @@ import {
   BASE_BOARD_WIDTH_HEIGHT,
   BASE_TILE_GAP,
   BASE_BOARD_PADDING,
-  HEADER_HEIGH,
+  HEADER_HEIGHT,
 } from "../CONSTS";
 import styles from "./modules/TileBoard.module.css";
 import useProgressiveImage from "./hooks/useProgressiveImage";
@@ -61,7 +61,7 @@ function TileBoard({
   const boardWidth = Math.min(
     BASE_BOARD_WIDTH_HEIGHT + BASE_BOARD_PADDING * 2,
     windowDimentions.width - BASE_BOARD_PADDING * 2,
-    windowDimentions.height - (HEADER_HEIGH + BASE_BOARD_PADDING + 2)
+    windowDimentions.height - (HEADER_HEIGHT + BASE_BOARD_PADDING + 2)
   );
   const scaleFactor = boardWidth / BASE_BOARD_WIDTH_HEIGHT;
   const BASE_TILE_WIDTH_HEIGHT =
